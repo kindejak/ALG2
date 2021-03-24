@@ -21,6 +21,7 @@ public class Runner {
     public int timeDifferance(Runner diffRunner){
         return Math.abs(diffRunner.timeInSeconds - timeInSeconds);
     }
+
     public double averageKmH(Race race){
         float time = (float) (timeInSeconds-race.getStartTime())/3600;
         return  race.getLength()/time;
