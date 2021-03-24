@@ -1,5 +1,6 @@
 package cz.tul.kindejak;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 
 public class Polynomial {
@@ -17,8 +18,8 @@ public class Polynomial {
     //6, 0, 3, 5 prevracene koeficienty
     //5, 3, 0, 6 neprevracene koeficienty
 
-    private Polynomial(double[] coefR){ //[6 0 3 5]
-        this.coefR = coefR;
+    Polynomial(double[] coefR){ //[6 0 3 5]
+        this.coefR = Arrays.copyOf(coefR,coefR.length);
     }
 
     //tovarni metoda (factory method) pouziti vararg
@@ -62,16 +63,31 @@ public class Polynomial {
     //TODO vypisat matematicky spravne 5x^3 + ...
     @Override
     public String toString() {
-        return Arrays.toString(coefR);
+        String str = "";
+        DecimalFormat format = new DecimalFormat("0.#");
+        for (int i = coefR.length-1; i >= 0; i--) {
+            if(i == 0){
+                str += format.format(coefR[i]);
+                break;
+            }
+            str += format.format(coefR[i]) + "x^" + i;
+            str += " + ";
+        }
+        return str;
     }
 
     //5x3 + 3x2 + 6 zderivovane bude 15x2 + 6x
     public Polynomial derivate(){
-        double[] coefD = new double[coefR.length - 1]; //koef derivacie je o jedno mensi
-        for (int i = 0; i < coefD.length; i++) {
-            coefD[i] = coefR[i+1]*(i + 1);
+        if (coefR.length == 1){
+            double[] coefD = {0.0};
+            return new Polynomial(coefD);
+        } else {
+            double[] coefD = new double[coefR.length - 1]; //koef derivacie je o jedno mensi
+            for (int i = 0; i < coefD.length; i++) {
+                coefD[i] = coefR[i+1]*(i + 1);
+            }
+            return new Polynomial(coefD);
         }
-        return new Polynomial(coefD);
     }
 
     //TODO bonus
