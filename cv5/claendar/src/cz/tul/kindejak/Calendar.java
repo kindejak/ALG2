@@ -11,21 +11,36 @@ public class Calendar {
         this.year = year;
     }
     
-    public String daysThisMonth(){
+    public String thisMonthToString(){
         StringBuilder str = new StringBuilder();
-        int dayNum = 1;
-        for (int i = 0; i < daysInMonth[month-1]; i++) {
-            str.append(i+1);
-            if ((i+1) < 10){
+        int startingDay = getDay(1,month,year);
+        for (int i = 1; i < (6 + startingDay) % 7; i++) {
+            str.append("   ");
+        }
+        for (int i = 1; i < daysInMonth[month-1]+1; i++) {
+
+            if (i < 10){
                 str.append("  ");
             } else {
                 str.append(" ");
             }
-            if ((i+1) % 7 == 0){
+            str.append(i);
+            if ((7 - startingDay)+2 == i || (i>10 &&  i % 7 == (7 - startingDay+2)%7)){
                 str.append("\n");
             }
         }
         return str.toString();
+    }
+
+    public static int getDay(int day, int month, int year) {
+        // https://cs.wikipedia.org/wiki/Algoritmus_pro_v%C3%BDpo%C4%8Det_dne_v_t%C3%BDdnu
+        if (month < 3) {
+            month = month + 12;
+        }
+        int k = year % 100;
+        int j = year / 100;
+        return ((day + (((month + 1) * 26) / 10) +
+        k + (k / 4) + (j / 4)) + (5 * j)) % 7;
     }
 
     @Override
@@ -34,7 +49,7 @@ public class Calendar {
     }
 
     public static void main(String[] args) {
-        Calendar cal = new Calendar(24,3,2021);
-        System.out.println(cal.daysThisMonth());
+        Calendar cal = new Calendar(1,4,2021);
+        System.out.println(cal.thisMonthToString());
     }
 }
