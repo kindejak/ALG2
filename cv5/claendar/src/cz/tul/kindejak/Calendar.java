@@ -1,9 +1,8 @@
 package cz.tul.kindejak;
 
 public class Calendar {
-    private static int[] daysInMonth = {31,28,31,30,31,30,31,31,30,31,30,31};
-    int day,month,year;
-    int firstDayOfMonth;
+    private int[] daysInMonth = {31,28,31,30,31,30,31,31,30,31,30,31};
+    private int day,month,year;
 
     public Calendar(int day, int month, int year) {
         this.day = day;
@@ -14,6 +13,7 @@ public class Calendar {
     public String thisMonthToString(){
         StringBuilder str = new StringBuilder();
         int startingDay = getDay(1,month,year);
+        str.append(" mo tu we th fr sa su\n");
         for (int i = 1; i < (6 + startingDay) % 7; i++) {
             str.append("   ");
         }
