@@ -1,39 +1,147 @@
 package cz.tul.kindejak;
 
-import java.util.ArrayList;
+import java.util.*;
 
+/**
+ *
+ * @author JV
+ */
 public class ShapesApp {
+    public static Scanner sc = new Scanner(System.in);
+    public static List<Shape> shapes = new ArrayList<>();
 
     public static void main(String[] args) {
-	Circle c1 = Circle.createInstanceR(2);
-	Rectangle r1 = new Rectangle(2,3);
-	Circle c2 = Circle.createInstanceD(4.5);
+        int choice;
 
-	System.out.println("1st try");
-	double area = c1.getArea() + c2.getArea() + r1.calculateArea();
-	System.out.printf("%f == %s %s %s",area,c1.toString(),r1.toString(),c2.toString());
-		ArrayList geomShape2 = new ArrayList();
-		geomShape2.add(c1);
-		geomShape2.add(r1);
-		geomShape2.add(c2);
-		double area2 = 0;
-		for (int i = 0; i < geomShape2.size(); i++) {
-			if (geomShape2.get(i) instanceof Circle){
-				area2 = area2 + ((Circle) geomShape2.get(i)).getArea();
-			} else if(geomShape2.get(i) instanceof Rectangle){
-				area2 = area2 + ((Rectangle) geomShape2.get(i)).calculateArea();
-			}
-		}
-		System.out.println("2nd try");
-		System.out. println(area2);
+        do {
+            displayMenu();
+            choice = readChoice(Integer.MAX_VALUE);
+            switch (choice) {
+                case 0:
+                    break;
+                case 1:
+                    clearObjects();
+                    break;
+                case 2:
+                    addSquare();
+                    break;
+                case 3:
+                    addRectangle();
+                    break;
+                case 4:
+                    addCircle();
+                    break;
+                case 5:
+                    getAllObjectsInfo();
+                    break;
+                case 6:
+                    computeArea();
+                    break;
+                case 7:
+                    findWithMaxArea();
+                    break;
+                case 8:
+                    getObjectInfo();
+                    break;
+                case 9: 
+                    sortByArea();
+                default:
+                    System.out.println("Chybna volba");
+            }
+        } while (choice != 0);
 
-		ArrayList geomShape3 = new ArrayList();
-		geomShape3.add(c1);
-		geomShape3.add(c2);
-		geomShape3.add(r1);
-		double area3 = 0;
-		for (int i = 0; i < geomShape3.size(); i++) {
-			area3 = area3 + (geomShape3.get(i)).getArea();
-		}
+    }
+
+    private static void displayMenu() {
+        System.out.println("");
+        System.out.println("1. Nova sada");
+        System.out.println("2. Pridej ctverec");
+        System.out.println("3. Pridej obdelnik");
+        System.out.println("4. Pridej kruh");
+        System.out.println("5. Vypis geometricke utvary");
+        System.out.println("6. Vypocti celkovou plochu");
+        System.out.println("7. Vypis utvar s najvetsi plochou");
+        System.out.println("8. Vypis plochu vybraneho utvaru");
+        System.out.println("9. Setrid");
+        System.out.println("0. Konec programu");
+    }
+
+    private static int readChoice(int maxChoice) {
+        System.out.println("Tvoje volba: ");
+        int choice = sc.nextInt();
+        if (choice >= 0 && choice <= maxChoice){
+            return choice;
+        } else {
+            return -1;
+        }
+    }
+
+    private static void clearObjects() {
+        shapes = new ArrayList<>();
+    }
+
+    private static void addSquare() {
+        System.out.println("Strana a: ");
+        int a = sc.nextInt();
+        Square s = new Square(a);
+        shapes.add(s);
+    }
+
+    private static void addRectangle() {
+        System.out.println("Strana a a b: ");
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        Rectangle r = new Rectangle(a,b);
+        shapes.add(r);
+    }
+
+    private static void addCircle() {
+        System.out.println("Polomer r: ");
+        int r = sc.nextInt();
+        Circle c = new Circle(r);
+        shapes.add(c);
+    }
+
+    private static void getAllObjectsInfo() {
+        int i = 0;
+        for (Shape s : shapes) {
+            System.out.println(i + ". " + s.toString());
+            i++;
+        }
+    }
+
+    private static void computeArea() {
+        double area = 0;
+        for (Shape s : shapes) {
+            area += s.computeArea();
+        }
+        System.out.println(area);
+    }
+    private static void findWithMaxArea() {
+        Shape maxAreaShape = shapes.get(0);
+        for (Shape s : shapes) {
+            if(s.computeArea() > maxAreaShape.computeArea()){
+               maxAreaShape = s;
+            }
+        }
+        System.out.println(maxAreaShape.toString());
+        System.out.println(maxAreaShape.computeArea());
+    }
+    
+    //zobrazi vsechny, necha vybrat a o vybranem zobrazit info
+    private static void getObjectInfo() {
+        getAllObjectsInfo();
+        int choice = readChoice(shapes.size()-1);
+        System.out.println(shapes.get(choice).toString());
+    }
+    
+    //zobrazi objekty setridene podle plochy
+    private static void sortByArea() {
+        Collections.sort(shapes, new Comparator<Shape>() {
+            @Override
+            public int compare(Shape o1, Shape o2) {
+                return Double.compare(o1.computeArea(),o2.computeArea());
+            }
+        });
     }
 }

@@ -1,12 +1,19 @@
 package cz.tul.kindejak;
 
+/**
+ * Nemenny immutable 
+ * @author janvit
+ */
 public class Rectangle extends Shape {
+    //data
     private double a;
     private double b;
+    private double area; //vypocitana
 
     public Rectangle(double a, double b) {
         this.a = a;
         this.b = b;
+        this.area = area();
     }
 
     public double getA() {
@@ -16,22 +23,24 @@ public class Rectangle extends Shape {
     public double getB() {
         return b;
     }
-
-    public double calculateArea(){
+    
+    private double area(){
         return a*b;
     }
 
-
+    //neni ted potreba
+    public double getArea() {
+        return area;
+    }
+    
     @Override
-    public String toString() {
-        return "Rectangle{" +
-                "a=" + a +
-                ", b=" + b +
-                '}';
+    public double computeArea(){
+        return area; 
     }
 
     @Override
-    public double getArea() {
-        return calculateArea();
+    public String toString() {
+        //return "Rectangle{" + "a=" + a + ", b=" + b + '}';
+        return super.toString() + String.format(" a = %.2f, b = %.2f", a, b);
     }
 }
