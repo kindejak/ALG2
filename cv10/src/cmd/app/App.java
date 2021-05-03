@@ -53,6 +53,7 @@ public class App {
         }
         Result r = command.execute(path);
         setPath((r.getCurrentDir().getAbsoluteFile()));
+        //System.setProperty( "user.dir", r.getCurrentDir().getAbsoluteFile().toString());
         return r;
     }
 }

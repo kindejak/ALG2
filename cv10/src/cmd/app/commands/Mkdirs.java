@@ -7,15 +7,16 @@ import java.io.File;
 import java.io.IOException;
 
 public class Mkdirs extends Command {
-    File dir;
+    String dirName;
 
     @Override
     public void setParameters(String[] params)  {
-        dir = new File(params[0]);
+        dirName = params[0];
     }
 
     @Override
     public Result execute(File currentDir) throws IOException {
+        File dir = new File(currentDir.toString() + "\\" + dirName);
         dir.mkdirs();
         return new Result(currentDir,"");
     }
