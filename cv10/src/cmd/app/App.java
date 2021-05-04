@@ -28,10 +28,6 @@ public class App {
         return new File(path.getAbsolutePath());
     }
 
-    public void setExit(boolean exit) {
-        this.exit = exit;
-    }
-
 
     public Result command(String commandLine) throws ClassNotFoundException, IllegalAccessException, InstantiationException, IOException {
         String[] commandLineSplit = commandLine.split(" ");

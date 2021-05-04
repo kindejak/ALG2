@@ -17,7 +17,7 @@ public class Help extends Command {
                 "- mkdir <adresář> - vytvoří zadaný adresář\n" +
                 "- mkdirs <cesta> – vytvoří adresáře odpovídající cestě zadané v parametru\n" +
                 "- rename <jm1> <jm2> – přejmenuje soubor nebo adresář\n" +
-                "- pwd - vypíše soubor, ve kterem se aktualne nachazite");
+                "- pwd - vypíše adresář ve kterem se aktuáln+ nacházíte");
         return new Result(currentDir,helpText.toString());
     }
 }

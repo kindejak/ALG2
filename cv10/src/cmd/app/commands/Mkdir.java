@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class Mkdir extends Command {
-    File dir;
+    private File dir;
 
     @Override
     public void setParameters(String[] params)  {

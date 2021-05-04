@@ -15,7 +15,9 @@ public class CmdUI {
 	        String commandLine = sc.nextLine();
             try {
                 Result r = a.command(commandLine);
-                System.out.println(r.getResultMessage());
+                if (!r.getResultMessage().isEmpty()) {
+                    System.out.println(r.getResultMessage());
+                }
             } catch (Exception e) {
                 System.out.println("Something went wrong. " + e.getMessage());
             }

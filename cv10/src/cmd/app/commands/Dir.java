@@ -6,21 +6,32 @@ import cmd.utils.Result;
 import java.io.File;
 
 public class Dir extends Command {
-    File dirAdress;
-    boolean parameterExist = false;
+    private String dirName;
+    private boolean parameterExist = false;
 
     @Override
     public void setParameters(String[] params) {
-        dirAdress = new File(params[0]);
         parameterExist = true;
+        if(params[0].startsWith("./")){
+            dirName = params[0].substring(2);
+        } else {
+            dirName = params[0];
+        }
     }
 
     @Override
     public Result execute(File currentDir) {
-        if(!parameterExist){
-            dirAdress = currentDir;
+        File[] fileList;
+        if(parameterExist){
+            File dir = new File(dirName);
+            if (!dir.isAbsolute()){
+                dir = new File(currentDir.toString() + "\\" + dirName);
+            }
+            fileList  = new File(dirName).listFiles();
+        } else {
+            fileList = currentDir.listFiles();
         }
-        File[] fileList = dirAdress.listFiles();
+
 
         StringBuffer text = new StringBuffer();
         for(File file : fileList){
