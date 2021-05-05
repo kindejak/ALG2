@@ -43,10 +43,6 @@ public class Dir extends Command {
             }
         });
 
-        if (!extensionString.equals("")){
-
-        }
-
 
         StringBuffer text = new StringBuffer();
         for(File file : fileList){
