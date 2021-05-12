@@ -18,7 +18,11 @@ public class CmdUI {
                 if (!r.getResultMessage().isEmpty()) {
                     System.out.println(r.getResultMessage());
                 }
-            } catch (Exception e) {
+            }catch (IllegalAccessException e) {
+                System.out.printf("cannot access this file");
+            }catch (ClassNotFoundException e) {
+                System.out.println("command doesn't exist");
+            }catch (Exception e) {
                 System.out.println("Something went wrong. " + e.getMessage());
             }
 	        if(a.isExit()){
