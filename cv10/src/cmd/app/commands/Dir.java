@@ -11,11 +11,16 @@ public class Dir extends Command {
     private String dirName;
     private boolean parameterZeroExist = false;
     private String extensionString = "";
+    private boolean recursion = false;
 
     @Override
     public void setParameters(String[] params) {
         if(params[0].equals("-e")){
             extensionString = params[1];
+            return;
+        }
+        if(params[0].equals("-r")){
+            recursion = true;
             return;
         }
         parameterZeroExist = true;
@@ -28,6 +33,9 @@ public class Dir extends Command {
 
     @Override
     public Result execute(File currentDir) {
+        if (recursion){
+            return new Result(currentDir,recursive(currentDir.getAbsolutePath()));
+        }
         if(parameterZeroExist){
             File dir = new File(dirName);
             if (!dir.isAbsolute()){
@@ -52,6 +60,20 @@ public class Dir extends Command {
             text.append(file.getName() + "\n");
         }
         return new Result(currentDir,text.toString());
+    }
+
+    private String recursive(String path){
+        StringBuilder sb = new StringBuilder();
+        File[] filesList = new File(path).listFiles();
+        if (filesList == null) return sb.toString();
+
+        for (File file : filesList) {
+            sb.append("–").append(file.getName()).append("\n");
+            if (file.isDirectory()) {
+                sb.append("–").append(recursive(file.getAbsolutePath()));
+            }
+        }
+        return sb.toString();
     }
 
 }
