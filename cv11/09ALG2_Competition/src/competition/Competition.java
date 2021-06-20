@@ -2,14 +2,7 @@ package competition;
 
 import io.TextFileReader;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -108,5 +101,20 @@ public class Competition {
                 pw.println(s);
             }
         }
+    }
+
+    public void saveToBinaryFile(File resultFile) throws IOException {
+            DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(resultFile)));
+            for (Runner runner : runners){
+                dos.writeInt(runner.getNumber());
+                dos.writeUTF(runner.getFirstName());
+                int length = runner.getLastName().length();
+                dos.writeInt(length);
+                for (int i = 0; i < length; i++){
+                    dos.writeChar(runner.getLastName().charAt(i));
+                }
+                dos.writeLong(runner.getRunningTime().toNanoOfDay());
+            }
+
     }
 }

@@ -23,6 +23,7 @@ public class Runner implements Comparable<Runner>{
     private int number;
     private LocalTime startTime;
     private LocalTime finishTime;
+    private LocalTime runningTime;
 
     public static final Comparator<Runner> COMP_DOB = (Runner r1, Runner r2) -> r1.born.compareTo(r2.born);
 
@@ -72,12 +73,22 @@ public class Runner implements Comparable<Runner>{
         return finishTime;
     }
 
+    public LocalTime getRunningTime() {
+        return runningTime;
+    }
+
     public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
 
     public void setFinishTime(LocalTime finishTime) {
         this.finishTime = finishTime;
+        computeRunningTime();
+    }
+
+    public void computeRunningTime() {
+         this.runningTime = LocalTime.ofNanoOfDay(Duration.between(startTime,finishTime).toNanos());
+
     }
 
     @Override
@@ -86,7 +97,6 @@ public class Runner implements Comparable<Runner>{
         if (startTime != null){
             s = s + String.format(" %10s ", startTime.format(DateTimeFormatter.ISO_LOCAL_TIME));
             if (finishTime != null){
-                 LocalTime runningTime = LocalTime.ofNanoOfDay(Duration.between(startTime,finishTime).toNanos());
                 s = s + String.format(" %-15s %-15s", finishTime.format(DateTimeFormatter.ISO_LOCAL_TIME), runningTime);
 
             }
